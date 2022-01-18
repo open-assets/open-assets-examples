@@ -1,0 +1,5332 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Open Assets API",
+    "description": "Open Assets API",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://api-dev.open-assets.co.uk"
+    }
+  ],
+  "paths": {
+    "/account/password/reset": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Start reset a password for an account.",
+        "description": "Sends a OoB link to an email address.",
+        "operationId": "SendResetAccountPasswordLink",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountPasswordResetLinkCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account/password": {
+      "put": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Reset a password for an account.",
+        "operationId": "ResetAccountPassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountPasswordUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account/password/reset/verify": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Verify reset password code.",
+        "operationId": "VerifyResetAccountPasswordCode",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountPasswordResetCodeVerifyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account": {
+      "put": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Register an account",
+        "description": "Sign up. Note: an email address must be invited first.",
+        "operationId": "CreateAccount",
+        "parameters": [
+          {
+            "name": "Access-Control-Allow-Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account/email/verify": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Verify an email address has be preregistered.",
+        "operationId": "VerifyAccountEmail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountEmailVerifyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountEmailVerifyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agreement-types/{id}": {
+      "get": {
+        "tags": [
+          "AgreementType"
+        ],
+        "summary": "Get financial interest product types.",
+        "description": "Access Right: AssetWrite",
+        "operationId": "GetAgreementType",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgreementType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agreement-types": {
+      "get": {
+        "tags": [
+          "AgreementType"
+        ],
+        "summary": "Get financial interest product types.",
+        "description": "Access Right: AssetWrite",
+        "operationId": "GetAgreementTypes",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgreementType"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-keys": {
+      "post": {
+        "tags": [
+          "APIKey"
+        ],
+        "summary": "Create API Key.",
+        "description": "Access Right: ApiKeyManage",
+        "operationId": "CreateApiKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiKeyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKey"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "APIKey"
+        ],
+        "summary": "Get all API Keys.",
+        "description": "Access Right: ApiKeyManage",
+        "operationId": "GetApiKeys",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiKeyDescription"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-keys/{id}": {
+      "delete": {
+        "tags": [
+          "APIKey"
+        ],
+        "summary": "Delete API Key.",
+        "description": "Access Right: ApiKeyManage",
+        "operationId": "DeleteApiKey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "APIKey"
+        ],
+        "summary": "Get API Key by Id.",
+        "description": "Access Right: ApiKeyManage",
+        "operationId": "GetApiKey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyDescription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rights": {
+      "get": {
+        "tags": [
+          "AppRights"
+        ],
+        "summary": "Get all application rights.",
+        "description": "Access Right: ApiKeyManage",
+        "operationId": "GetAppRights",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppRight"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/roles": {
+      "get": {
+        "tags": [
+          "AppRoles"
+        ],
+        "summary": "Get all application roles.",
+        "description": "Access Right: UserInvite",
+        "operationId": "GetAppRoles",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppRole"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/identifier": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Get asset identifier.",
+        "description": "Access Right: AssetRead",
+        "operationId": "GetAssetIdentifiers",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetIdentifier"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/children": {
+      "post": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Get vehicle asset.",
+        "description": "Access Right: AssetRead",
+        "operationId": "AttachAssets",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetsAttachRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Asset"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Get vehicle asset.",
+        "description": "Access Right: AssetRead",
+        "operationId": "GetAssetChildren",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Specifies which fields in the response should be expanded.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Asset"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/children/{childId}": {
+      "delete": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Get vehicle asset.",
+        "description": "Access Right: AssetRead",
+        "operationId": "DetachAsset",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "childId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Get asset.",
+        "description": "Access Right: AssetRead",
+        "operationId": "GetAsset",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Specifies which fields in the response should be expanded.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Asset"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Asset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Get vehicle asset.",
+        "description": "Access Right: AssetRead",
+        "operationId": "GetAssets",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Registration or Serial Number search query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "description": "How many results to return",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "How many results to skip",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "financialRegistrationExists",
+            "in": "query",
+            "description": "Only include assets that have been registered before",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter by financial interest status",
+            "schema": {
+              "$ref": "#/components/schemas/FinancialRegistrationStatus"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expand nested properties",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/other": {
+      "post": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Create an asset.",
+        "description": "Create an asset with the option to register interest.\r\nAccess Right: AssetWrite",
+        "operationId": "CreateOtherAsset",
+        "parameters": [
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Specifies which fields in the response should be expanded.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtherAssetCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OtherAsset"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OtherAsset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/other/{id}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Get asset.",
+        "description": "Access Right: AssetRead",
+        "operationId": "GetOtherAsset",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Specifies which fields in the response should be expanded.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OtherAsset"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OtherAsset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Update a asset with the option to register interest.",
+        "description": "Access Right: AssetWrite",
+        "operationId": "UpdateOtherAsset",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expand nested properties",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtherAssetUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OtherAsset"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OtherAsset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/trailers": {
+      "post": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Create a Trailer.",
+        "description": "Create a Trailer with the option to register interest.\r\nAccess Right: AssetWrite",
+        "operationId": "CreateTrailerAsset",
+        "parameters": [
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Specifies which fields in the response should be expanded.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrailerAssetCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrailerAsset"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrailerAsset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/trailers/{id}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Get trailer asset.",
+        "description": "Access Right: AssetRead",
+        "operationId": "GetTrailerAsset",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Specifies which fields in the response should be expanded.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrailerAsset"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrailerAsset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Update a asset with the option to register interest.",
+        "description": "Access Right: AssetWrite",
+        "operationId": "UpdateTrailerAsset",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expand nested properties",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrailerAssetUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrailerAsset"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrailerAsset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/vehicles": {
+      "post": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Create a vehicle.",
+        "description": "Create a vehicle with the option to register interest.\r\nAccess Right: AssetWrite",
+        "operationId": "CreateVehicleAsset",
+        "parameters": [
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Specifies which fields in the response should be expanded.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "attributes.mothistory",
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VehicleAssetCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleAsset"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleAsset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/vehicles/{id}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Get vehicle asset.",
+        "description": "Access Right: AssetRead",
+        "operationId": "GetVehicleAsset",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Specifies which fields in the response should be expanded.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "attributes.mothistory",
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleAsset"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleAsset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Update a asset with the option to register interest.",
+        "description": "Access Right: AssetWrite",
+        "operationId": "UpdateVehicleAsset",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expand nested properties",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "attributes.mothistory",
+                  "category",
+                  "financialregistration.agreementtype",
+                  "financialregistration.externalregistration",
+                  "tags",
+                  "warnings"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VehicleAssetUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleAsset"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleAsset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/audit-logs": {
+      "get": {
+        "tags": [
+          "AssetAuditLogs"
+        ],
+        "summary": "Get and assets audit logs.",
+        "description": "Access Right: AssetViewAudit",
+        "operationId": "GetAssetAuditLogs",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "description": "How many results to return",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "How many results to skip",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetAuditLogSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/asset-categories": {
+      "post": {
+        "tags": [
+          "AssetCategory"
+        ],
+        "summary": "Create a asset category.",
+        "description": "Access Right: CompanyUpdate",
+        "operationId": "CreateAssetCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetCategoryCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetCategory"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "AssetCategory"
+        ],
+        "summary": "Get asset categories.",
+        "description": "Access Right: AssetWrite",
+        "operationId": "GetAssetCategories",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssetCategory"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/asset-categories/{id}": {
+      "delete": {
+        "tags": [
+          "AssetCategory"
+        ],
+        "summary": "Delete a asset category.",
+        "description": "Access Right: CompanyUpdate",
+        "operationId": "DeleteAssetCategory",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/due-diligence-records": {
+      "get": {
+        "tags": [
+          "AssetDueDiligence"
+        ],
+        "summary": "Get vehicle asset.",
+        "description": "Access Right: AssetRead",
+        "operationId": "GetAssetDueDiligenceRecords",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "description": "How many results to return",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "How many results to skip",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expand nested properties",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "asset",
+                  "createdby",
+                  "warningstatechanges",
+                  "warningstatechanges.warning"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetDueDiligenceRecordSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/due-diligence/mars-searches": {
+      "post": {
+        "tags": [
+          "AssetDueDiligence"
+        ],
+        "summary": "Initiate a MARS due diligence search.",
+        "description": "Access Right: MarsDueDiligenceSearch",
+        "operationId": "CreateMarsDueDiligenceSearch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "description": "A unique string for this request that will ensure it is only run once. A UUID is recommended.\r\nIf the same key is supplied in a subsequent request within 24 hours, the original result is returned.\r\nThis ensures that the client can make the same call more than once in instances where the response\r\nwasn't received. While avoiding making duplicate calls to your MARS provider that can incur costs.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "parameters",
+            "in": "query",
+            "description": "The parameters from the asset to use in the enquiry",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/AssetEnquiryParameters"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarsDueDiligenceSearchAccepted"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "AssetDueDiligence"
+        ],
+        "summary": "Get a completed MARS due diligence search.",
+        "description": "Access Right: MarsDueDiligenceSearch",
+        "operationId": "GetMarsDueDiligenceSearch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expand nested properties",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "duediligencerecord.asset",
+                  "duediligencerecord.createdby",
+                  "duediligencerecord.warningstatechanges",
+                  "duediligencerecord.warningstatechanges.warning"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarsDueDiligenceSearch"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarsDueDiligenceSearchAccepted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/assets-searches/trailer": {
+      "post": {
+        "tags": [
+          "AssetSearch"
+        ],
+        "summary": "Start an asset search for a trailer.",
+        "description": "Access Right: AssetSearch",
+        "operationId": "CreateTrailerAssetSearch",
+        "parameters": [
+          {
+            "name": "vrm",
+            "in": "query",
+            "description": "Vehicle Registration Mark to search for",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "vin",
+            "in": "query",
+            "description": "Vehicle Identification Number to search for",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetSearchAccepted"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets-searches/trailer/{id}": {
+      "get": {
+        "tags": [
+          "AssetSearch"
+        ],
+        "summary": "Get a completed trailer asset search.",
+        "description": "Access Right: AssetSearch",
+        "operationId": "GetTrailerAssetSearch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrailerAssetSearchResult"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetSearchAccepted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/assets-searches/vehicle": {
+      "post": {
+        "tags": [
+          "AssetSearch"
+        ],
+        "summary": "Start an asset search for a vehicle.",
+        "description": "Access Right: AssetSearch",
+        "operationId": "CreateVehicleAssetSearch",
+        "parameters": [
+          {
+            "name": "vrm",
+            "in": "query",
+            "description": "Vehicle Registration Mark to search for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetSearchAccepted"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets-searches/vehicle/{id}": {
+      "get": {
+        "tags": [
+          "AssetSearch"
+        ],
+        "summary": "Get a completed vehicle asset search.",
+        "description": "Access Right: AssetSearch",
+        "operationId": "GetVehicleAssetSearch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleAssetSearchResult"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetSearchAccepted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/company": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Get your company.",
+        "operationId": "GetMyCompany",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Company"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Update your company.",
+        "description": "Access Right: CompanyUpdate",
+        "operationId": "UpdateMyCompany",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Company"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/company/user-invites": {
+      "post": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Invite a user.",
+        "description": "Access Right: AdminInviteUser",
+        "operationId": "CreateCompanyUserInvite",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInviteCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInvite"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Get outstanding user invites.",
+        "description": "Access Right: UserInvite",
+        "operationId": "GetUserInvites",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserInvite"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/company/user-invites/{email}": {
+      "delete": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Delete a user invite.",
+        "description": "Access Right: UserInvite",
+        "operationId": "DeleteUserInvite",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/company/users": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Get all users in your company.",
+        "description": "Access Right: CompanyGetUsers",
+        "operationId": "GetMyCompanyUsers",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/company/users/{id}": {
+      "put": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Update your company.",
+        "description": "Access Right: CompanyUpdate",
+        "operationId": "UpdateCompanyUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyUserUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/company/credentials/hpi": {
+      "put": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Update company HPI credentials.",
+        "description": "Access Right: CompanyUpdate",
+        "operationId": "UpdateHpiCredentials",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateHpiCredentialsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Company"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/company/credentials/hpi/validate": {
+      "put": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Validate company HPI credentials.",
+        "description": "Access Right: CompanyUpdate",
+        "operationId": "ValidateHpiCredentials",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateHpiCredentialsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidateHpiCredentialsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/financial-registration/register": {
+      "post": {
+        "tags": [
+          "FinancialRegistration"
+        ],
+        "summary": "Register interest in asset.",
+        "description": "Access Right: AssetWrite",
+        "operationId": "RegisterAssetFinancialInterest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FinancialRegistration"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/financial-registration/release": {
+      "post": {
+        "tags": [
+          "FinancialRegistration"
+        ],
+        "summary": "Release interest in asset.",
+        "description": "Access Right: AssetWrite",
+        "operationId": "ReleaseAssetFinancialInterest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reason",
+            "in": "query",
+            "description": "Reason for releasing interest",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/FinancialInterestReleaseReason"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FinancialRegistration"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account/session": {
+      "post": {
+        "tags": [
+          "Session"
+        ],
+        "summary": "Create a session (Login).",
+        "operationId": "CreateSession",
+        "parameters": [
+          {
+            "name": "Access-Control-Allow-Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Session"
+        ],
+        "summary": "Delete a session (Logout)",
+        "description": "Removes all authentication cookies.",
+        "operationId": "DeleteSession",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Session"
+        ],
+        "summary": "Refresh a session. Refreshes the Id Token using a Refresh token.",
+        "operationId": "RefreshSession",
+        "parameters": [
+          {
+            "name": "Access-Control-Allow-Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/tags": {
+      "post": {
+        "tags": [
+          "Tag"
+        ],
+        "summary": "Attach a tag to an asset.",
+        "description": "Access Right: AssetWrite",
+        "operationId": "AttachAssetTag",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetTagAttachRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tag"
+        ],
+        "summary": "Remove a tag from an asset",
+        "description": "Access Right: AssetWrite",
+        "operationId": "RemoveAssetTag",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetTagRemoveRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags": {
+      "post": {
+        "tags": [
+          "Tag"
+        ],
+        "summary": "Add a tag",
+        "description": "Access Right: CompanyUpdate",
+        "operationId": "AddTag",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TagCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tag"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Tag"
+        ],
+        "summary": "Get tags",
+        "description": "Access Right: AssetWrite",
+        "operationId": "GetTags",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Filter tags by name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tag"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags/{id}": {
+      "delete": {
+        "tags": [
+          "Tag"
+        ],
+        "summary": "Delete a tag",
+        "description": "Access Right: CompanyUpdate",
+        "operationId": "DeleteTag",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Tag"
+        ],
+        "summary": "Update a tag",
+        "description": "Access Right: CompanyUpdate",
+        "operationId": "UpdateTag",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TagUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tag"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/me": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get your user.",
+        "operationId": "GetUser",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warnings/{id}/dismiss": {
+      "put": {
+        "tags": [
+          "Warning"
+        ],
+        "summary": "Dismiss a warning",
+        "description": "Access Right: AssetWarningDismiss",
+        "operationId": "DismissAssetWarning",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warning"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{id}/warnings": {
+      "get": {
+        "tags": [
+          "Warning"
+        ],
+        "summary": "Get warnings assigned to an asset.",
+        "description": "Access Right: AssetViewWarnings",
+        "operationId": "GetAssetWarnings",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Registration or Serial Number search query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "description": "How many results to return. Default: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "How many results to skip. Default: 0",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "resolved",
+            "in": "query",
+            "description": "Should include resolved warnings",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "dismissed",
+            "in": "query",
+            "description": "Should include dismissed warnings",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WarningSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warnings": {
+      "get": {
+        "tags": [
+          "Warning"
+        ],
+        "summary": "Get warnings assigned to any of your companies assets.",
+        "description": "Access Right: AssetViewWarnings",
+        "operationId": "GetWarnings",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Registration or Serial Number search query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "description": "How many results to return. Default: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "How many results to skip. Default: 0",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "resolved",
+            "in": "query",
+            "description": "Should include resolved warnings",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "dismissed",
+            "in": "query",
+            "description": "Should include dismissed warnings",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WarningSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountPasswordResetLinkCreateRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DomainErrorCode": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "ApplicationError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "errorCode": {
+            "$ref": "#/components/schemas/DomainErrorCode"
+          },
+          "additionalInfo": {
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountPasswordUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "oobCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "newPassword": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountPasswordResetCodeVerifyRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "oobCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountCreateRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "oobCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SessionToken": {
+        "type": "object",
+        "properties": {
+          "expiration": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "accessToken": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "refreshToken": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "refreshTokenExpiration": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "refreshTokenExpiresWithSession": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Session": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "$ref": "#/components/schemas/SessionToken"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountEmailVerifyRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountEmailVerifyResponse": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "signUpAllowed": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgreementType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiKeyRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "rights": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AppRight": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiKey": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "keyPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "rights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AppRight"
+            },
+            "nullable": true
+          },
+          "keyValue": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiKeyDescription": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "keyPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "rights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AppRight"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AppRole": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Identifier": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetIdentifier": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "$ref": "#/components/schemas/Identifier"
+          },
+          "secondary": {
+            "$ref": "#/components/schemas/Identifier"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetsAttachRequest": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Nio numbers of all new child assets",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetType": {
+        "enum": [
+          "Other",
+          "Vehicle",
+          "Trailer"
+        ],
+        "type": "string"
+      },
+      "AssetId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The Open-Asset Id representing the asset",
+            "nullable": true,
+            "example": "NIO-U9L8KV-PPZ3N4-8BB5VA"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AssetType"
+          },
+          "attributes": {
+            "type": "string",
+            "description": "The Url to use to get the full asset details and its attributes",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FinancialRegistrationStatus": {
+        "enum": [
+          "Active",
+          "Inactive",
+          "InDispute"
+        ],
+        "type": "string"
+      },
+      "FinancialInterestReleaseReason": {
+        "enum": [
+          "CreatedInError",
+          "AssetSold",
+          "AssetDestroyed"
+        ],
+        "type": "string"
+      },
+      "MotorAssetRegistrationService": {
+        "enum": [
+          "HPI",
+          "CDL",
+          "Experian"
+        ],
+        "type": "string",
+        "description": "Motor Asset Registration Service"
+      },
+      "FinancialRegistrationMarsResponse": {
+        "type": "object",
+        "properties": {
+          "isProcessing": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isRegistered": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "source": {
+            "$ref": "#/components/schemas/MotorAssetRegistrationService"
+          },
+          "timestampUtc": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FinancialRegistration": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "Location of the asset",
+            "nullable": true
+          },
+          "controller": {
+            "type": "string",
+            "description": "The name of the controller of the asset",
+            "nullable": true
+          },
+          "agreementTerm": {
+            "type": "integer",
+            "description": "The length of the agreement in months",
+            "format": "int32",
+            "nullable": true
+          },
+          "agreementStartDate": {
+            "type": "string",
+            "description": "The start date of the agreement",
+            "format": "date-time",
+            "nullable": true
+          },
+          "agreementReference": {
+            "type": "string",
+            "description": "The unique agreement reference",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/FinancialRegistrationStatus"
+          },
+          "releaseReason": {
+            "$ref": "#/components/schemas/FinancialInterestReleaseReason"
+          },
+          "agreementType": {
+            "$ref": "#/components/schemas/AgreementType"
+          },
+          "externalRegistration": {
+            "$ref": "#/components/schemas/FinancialRegistrationMarsResponse"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetWarningType": {
+        "enum": [
+          "AgreementMaturityUpcoming",
+          "AgreementMaturityExpired",
+          "HpiDetailsOutOfSync",
+          "VehicleHasNoTax",
+          "VehicleHasNoMOT",
+          "VehicleRegistrationNumberChanged",
+          "VehicleMarkedForExport",
+          "VehicleRegistrationNumberUnknown",
+          "TrailerAnnualTestExpired",
+          "TrailerRegistrationNumberChanged",
+          "TrailerHasUnknownVin",
+          "FinancialInterestMarker",
+          "DamageMarker",
+          "SecurityMarker"
+        ],
+        "type": "string"
+      },
+      "Warning": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AssetWarningType"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "resolved": {
+            "type": "boolean"
+          },
+          "dismissed": {
+            "type": "boolean"
+          },
+          "createdTimestampUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "asset": {
+            "$ref": "#/components/schemas/AssetId"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Asset": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The Open-Asset Id representing the asset",
+            "nullable": true,
+            "example": "NIO-U9L8KV-PPZ3N4-8BB5VA"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AssetType"
+          },
+          "attributes": {
+            "type": "string",
+            "description": "The Url to use to get the full asset details and its attributes",
+            "nullable": true,
+            "readOnly": true
+          },
+          "assetIdentification": {
+            "type": "string",
+            "description": "The main identifier(s) for the asset. This can include more\r\nthan one identification property, depending on the asset type",
+            "nullable": true
+          },
+          "parent": {
+            "$ref": "#/components/schemas/AssetId"
+          },
+          "description": {
+            "type": "string",
+            "description": "A custom description assigned to the asset",
+            "nullable": true,
+            "example": "Black Audi A3"
+          },
+          "hasWarnings": {
+            "type": "boolean",
+            "description": "Represents if this asset has any warnings that are not dismissed or resolved"
+          },
+          "isProcessing": {
+            "type": "boolean",
+            "description": "Represents if the system is still processing the asset. This can include\r\ngathering additional details for external resources or registering interest\r\nwith a MARS provider etc"
+          },
+          "category": {
+            "$ref": "#/components/schemas/AssetCategory"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "User defined key-value pairs",
+            "nullable": true
+          },
+          "financialRegistration": {
+            "$ref": "#/components/schemas/FinancialRegistration"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            },
+            "description": "A custom list of tags assigned to this asset",
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warning"
+            },
+            "description": "A list of unresolved warnings assigned to this asset",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetSearchResponse": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Asset"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OpenAssetId": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "OtherAssetAttributesCreateRequest": {
+        "type": "object",
+        "properties": {
+          "serialNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufactureDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetFinancialRegistrationCreateRequest": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "nullable": true
+          },
+          "controller": {
+            "type": "string",
+            "nullable": true
+          },
+          "agreementTerm": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "agreementStartDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "agreementReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "agreementTypeId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OtherAssetCreateRequest": {
+        "type": "object",
+        "properties": {
+          "parentId": {
+            "$ref": "#/components/schemas/OpenAssetId"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/OtherAssetAttributesCreateRequest"
+          },
+          "financialRegistration": {
+            "$ref": "#/components/schemas/AssetFinancialRegistrationCreateRequest"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OtherAttributes": {
+        "type": "object",
+        "properties": {
+          "serialNumber": {
+            "type": "string",
+            "description": "The manufacturers serial number or other commonly recognised identifier for this type of asset",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "The manufacturer of the asset",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "description": "The model of the asset",
+            "nullable": true
+          },
+          "manufactureDate": {
+            "type": "string",
+            "description": "The date the asset was manufactured",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OtherAsset": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The Open-Asset Id representing the asset",
+            "nullable": true,
+            "example": "NIO-U9L8KV-PPZ3N4-8BB5VA"
+          },
+          "parent": {
+            "$ref": "#/components/schemas/AssetId"
+          },
+          "description": {
+            "type": "string",
+            "description": "A custom description assigned to the asset",
+            "nullable": true,
+            "example": "Black Audi A3"
+          },
+          "hasWarnings": {
+            "type": "boolean",
+            "description": "Represents if this asset has any warnings that are not dismissed or resolved"
+          },
+          "isProcessing": {
+            "type": "boolean",
+            "description": "Represents if the system is still processing the asset. This can include\r\ngathering additional details for external resources or registering interest\r\nwith a MARS provider etc"
+          },
+          "financialRegistration": {
+            "$ref": "#/components/schemas/FinancialRegistration"
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/OtherAttributes"
+          },
+          "category": {
+            "$ref": "#/components/schemas/AssetCategory"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            },
+            "description": "A custom list of tags assigned to this asset",
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warning"
+            },
+            "description": "A list of unresolved warnings assigned to this asset",
+            "nullable": true
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OtherAssetAttributesUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufactureDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetFinancialRegistrationUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "nullable": true
+          },
+          "controller": {
+            "type": "string",
+            "nullable": true
+          },
+          "agreementTerm": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "agreementStartDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "agreementReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "agreementTypeId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OtherAssetUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "parentId": {
+            "$ref": "#/components/schemas/OpenAssetId"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/OtherAssetAttributesUpdateRequest"
+          },
+          "financialRegistration": {
+            "$ref": "#/components/schemas/AssetFinancialRegistrationUpdateRequest"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrailerAssetAttributesCreateRequest": {
+        "type": "object",
+        "properties": {
+          "vin": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufactureDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "vrm": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrailerAssetCreateRequest": {
+        "type": "object",
+        "properties": {
+          "parentId": {
+            "$ref": "#/components/schemas/OpenAssetId"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/TrailerAssetAttributesCreateRequest"
+          },
+          "financialRegistration": {
+            "$ref": "#/components/schemas/AssetFinancialRegistrationCreateRequest"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrailerAttributes": {
+        "type": "object",
+        "properties": {
+          "vin": {
+            "type": "string",
+            "description": "The vehicle identification number",
+            "nullable": true
+          },
+          "vrm": {
+            "type": "string",
+            "description": "The vehicle registration mark",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "The manufacturer of the vehicle",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "description": "The model of the vehicle",
+            "nullable": true
+          },
+          "manufactureDate": {
+            "type": "string",
+            "description": "The date the vehicle was manufactured",
+            "format": "date-time",
+            "nullable": true
+          },
+          "vehicleType": {
+            "type": "string",
+            "nullable": true
+          },
+          "vehicleClass": {
+            "type": "string",
+            "nullable": true
+          },
+          "registrationDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrailerAsset": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The Open-Asset Id representing the asset",
+            "nullable": true,
+            "example": "NIO-U9L8KV-PPZ3N4-8BB5VA"
+          },
+          "parent": {
+            "$ref": "#/components/schemas/AssetId"
+          },
+          "description": {
+            "type": "string",
+            "description": "A custom description assigned to the asset",
+            "nullable": true,
+            "example": "Black Audi A3"
+          },
+          "hasWarnings": {
+            "type": "boolean",
+            "description": "Represents if this asset has any warnings that are not dismissed or resolved"
+          },
+          "isProcessing": {
+            "type": "boolean",
+            "description": "Represents if the system is still processing the asset. This can include\r\ngathering additional details for external resources or registering interest\r\nwith a MARS provider etc"
+          },
+          "financialRegistration": {
+            "$ref": "#/components/schemas/FinancialRegistration"
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/TrailerAttributes"
+          },
+          "category": {
+            "$ref": "#/components/schemas/AssetCategory"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            },
+            "description": "A custom list of tags assigned to this asset",
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warning"
+            },
+            "description": "A list of unresolved warnings assigned to this asset",
+            "nullable": true
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrailerAssetAttributesUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "vrm": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufactureDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrailerAssetUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "parentId": {
+            "$ref": "#/components/schemas/OpenAssetId"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/TrailerAssetAttributesUpdateRequest"
+          },
+          "financialRegistration": {
+            "$ref": "#/components/schemas/AssetFinancialRegistrationUpdateRequest"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleAssetAttributesCreateRequest": {
+        "type": "object",
+        "properties": {
+          "vin": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufactureDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "vrm": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleAssetCreateRequest": {
+        "type": "object",
+        "properties": {
+          "parentId": {
+            "$ref": "#/components/schemas/OpenAssetId"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/VehicleAssetAttributesCreateRequest"
+          },
+          "financialRegistration": {
+            "$ref": "#/components/schemas/AssetFinancialRegistrationCreateRequest"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleMot": {
+        "type": "object",
+        "properties": {
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastTestPassed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isValid": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleMotTest": {
+        "type": "object",
+        "properties": {
+          "completedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "testResult": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "odometerValue": {
+            "type": "string",
+            "nullable": true
+          },
+          "odometerUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "motTestNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "odometerResultType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleAttributes": {
+        "type": "object",
+        "properties": {
+          "vin": {
+            "type": "string",
+            "description": "The vehicle identification number",
+            "nullable": true
+          },
+          "vrm": {
+            "type": "string",
+            "description": "The vehicle registration mark",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "The manufacturer of the vehicle",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "description": "The model of the vehicle",
+            "nullable": true
+          },
+          "manufactureDate": {
+            "type": "string",
+            "description": "The date the vehicle was manufactured",
+            "format": "date-time",
+            "nullable": true
+          },
+          "co2Emissions": {
+            "type": "integer",
+            "description": "The CO2 emissions reported by the DVLA",
+            "format": "int32",
+            "nullable": true
+          },
+          "colour": {
+            "type": "string",
+            "description": "The colour of the vehicle reported by the DVLA",
+            "nullable": true
+          },
+          "engineCapacity": {
+            "type": "integer",
+            "description": "The size/capacity of the engine reported by the DVLA",
+            "format": "int32",
+            "nullable": true
+          },
+          "fuelType": {
+            "type": "string",
+            "description": "The vehicle fuel type reported by the DVLA",
+            "nullable": true
+          },
+          "wheelplan": {
+            "type": "string",
+            "description": "The vehicle wheelplan reported by the DVLA",
+            "nullable": true
+          },
+          "mot": {
+            "$ref": "#/components/schemas/VehicleMot"
+          },
+          "motHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VehicleMotTest"
+            },
+            "description": "A list of MOT test's carried out on the vehicle",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleAsset": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The Nio Id representing the asset",
+            "nullable": true,
+            "example": "NIO-U9L8KV-PPZ3N4-8BB5VA"
+          },
+          "parent": {
+            "$ref": "#/components/schemas/AssetId"
+          },
+          "description": {
+            "type": "string",
+            "description": "A custom description assigned to the asset",
+            "nullable": true,
+            "example": "Black Audi A3"
+          },
+          "hasWarnings": {
+            "type": "boolean",
+            "description": "Represents if this asset has any warnings that are not dismissed or resolved"
+          },
+          "isProcessing": {
+            "type": "boolean",
+            "description": "Represents if the system is still processing the asset. This can include\r\ngathering additional details for external resources or registering interest\r\nwith a MARS provider etc"
+          },
+          "financialRegistration": {
+            "$ref": "#/components/schemas/FinancialRegistration"
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/VehicleAttributes"
+          },
+          "category": {
+            "$ref": "#/components/schemas/AssetCategory"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            },
+            "description": "A custom list of tags assigned to this asset",
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warning"
+            },
+            "description": "A list of unresolved warnings assigned to this asset",
+            "nullable": true
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleAssetAttributesUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "vrm": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufactureDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleAssetUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "parentId": {
+            "$ref": "#/components/schemas/OpenAssetId"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/VehicleAssetAttributesUpdateRequest"
+          },
+          "financialRegistration": {
+            "$ref": "#/components/schemas/AssetFinancialRegistrationUpdateRequest"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserProfile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the object.",
+            "format": "uuid"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "The given name of the user.",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The family name of the user.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetAuditLog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the object.",
+            "format": "uuid"
+          },
+          "action": {
+            "type": "string",
+            "description": "The action taken",
+            "nullable": true
+          },
+          "timestampUtc": {
+            "type": "string",
+            "description": "Date and time the action took place.",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserProfile"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetAuditLogSearchResponse": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetAuditLog"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetCategoryCreateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetDueDiligenceWarningStateChange": {
+        "type": "object",
+        "properties": {
+          "warningId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AssetWarningType"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "stateChange": {
+            "type": "string",
+            "nullable": true
+          },
+          "warning": {
+            "$ref": "#/components/schemas/Warning"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetDueDiligenceRecord": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "providerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "parameters": {
+            "type": "string",
+            "nullable": true
+          },
+          "reportFileUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdTimestampUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/UserProfile"
+          },
+          "asset": {
+            "$ref": "#/components/schemas/AssetId"
+          },
+          "warningStateChanges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetDueDiligenceWarningStateChange"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetDueDiligenceRecordSearchResponse": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetDueDiligenceRecord"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MarsDueDiligenceSearchAccepted": {
+        "type": "object",
+        "properties": {
+          "marsDueDiligenceSearchId": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MarsDueDiligenceSearch": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dueDiligenceRecord": {
+            "$ref": "#/components/schemas/AssetDueDiligenceRecord"
+          },
+          "errorType": {
+            "type": "string",
+            "nullable": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetSearchAccepted": {
+        "type": "object",
+        "properties": {
+          "assetSearchId": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrailerAnnualTest": {
+        "type": "object",
+        "properties": {
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isValid": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrailerAnnualTestResult": {
+        "type": "object",
+        "properties": {
+          "testDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "testType": {
+            "type": "string",
+            "nullable": true
+          },
+          "testResult": {
+            "type": "string",
+            "nullable": true
+          },
+          "testCertificateNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "numberOfDefectsAtTest": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "numberOfAdvisoryDefectsAtTest": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "location": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrailerAttributesSearchResult": {
+        "type": "object",
+        "properties": {
+          "vrm": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufactureDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "vehicleType": {
+            "type": "string",
+            "nullable": true
+          },
+          "vehicleClass": {
+            "type": "string",
+            "nullable": true
+          },
+          "registrationDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "currentAnnualTest": {
+            "$ref": "#/components/schemas/TrailerAnnualTest"
+          },
+          "annualTestHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TrailerAnnualTestResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrailerAssetSearchResult": {
+        "type": "object",
+        "properties": {
+          "searchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TrailerAttributesSearchResult"
+            },
+            "nullable": true
+          },
+          "errorType": {
+            "type": "string",
+            "nullable": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleTax": {
+        "type": "object",
+        "properties": {
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isValid": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleAttributesSearchResult": {
+        "type": "object",
+        "properties": {
+          "vrm": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufactureDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "taxDueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "co2Emissions": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "colour": {
+            "type": "string",
+            "nullable": true
+          },
+          "engineCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "fuelType": {
+            "type": "string",
+            "nullable": true
+          },
+          "wheelplan": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfLastV5CIssued": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "readOnly": true
+          },
+          "mot": {
+            "$ref": "#/components/schemas/VehicleMot"
+          },
+          "tax": {
+            "$ref": "#/components/schemas/VehicleTax"
+          },
+          "motHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VehicleMotTest"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleAssetSearchResult": {
+        "type": "object",
+        "properties": {
+          "searchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VehicleAttributesSearchResult"
+            },
+            "nullable": true
+          },
+          "errorType": {
+            "type": "string",
+            "nullable": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Company": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "hpiCredentialsCustomerCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "hpiCredentialsInitials": {
+            "type": "string",
+            "nullable": true
+          },
+          "hpiCredentialsFailed": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompanyUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApplicationRole": {
+        "enum": [
+          "AccountAdmin",
+          "AssetSearcher",
+          "AssetContributor",
+          "AssetReader"
+        ],
+        "type": "string"
+      },
+      "UserInviteCreateRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationRole"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserInvite": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "companyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationRole"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApplicationRight": {
+        "enum": [
+          "ApiKeyManage",
+          "CompanyUpdate",
+          "CompanyGetUsers",
+          "CompanyUpdateUsers",
+          "UserInvite",
+          "AssetViewAudit",
+          "AssetRead",
+          "AssetWrite",
+          "AssetSearch",
+          "AssetViewWarnings",
+          "AssetWarningDismiss",
+          "MarsDueDiligenceSearch"
+        ],
+        "type": "string"
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "companyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationRole"
+            },
+            "nullable": true
+          },
+          "rights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationRight"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompanyUserUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "disableAccount": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationRole"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateHpiCredentialsRequest": {
+        "type": "object",
+        "properties": {
+          "customerCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "initials": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValidateHpiCredentialsRequest": {
+        "type": "object",
+        "properties": {
+          "customerCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "initials": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValidateHpiCredentialsResponse": {
+        "type": "object",
+        "properties": {
+          "isValid": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SessionCreateRequest": {
+        "type": "object",
+        "properties": {
+          "rememberMe": {
+            "type": "boolean"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetTagAttachRequest": {
+        "type": "object",
+        "properties": {
+          "tagId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetTagRemoveRequest": {
+        "type": "object",
+        "properties": {
+          "tagId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TagCreateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TagUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WarningSearchResponse": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warning"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetEnquiryParameters": {
+        "enum": [
+          "Primary",
+          "Secondary",
+          "Both"
+        ],
+        "type": "string"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme. Enter 'Bearer [JWT]'.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "Cookie": {
+        "type": "apiKey",
+        "description": "JWT Authorization cookie",
+        "name": "access_token",
+        "in": "cookie"
+      },
+      "API-Key": {
+        "type": "apiKey",
+        "description": "Api Key generated by an account admin",
+        "name": "x-api-key",
+        "in": "header"
+      }
+    }
+  }
+}
